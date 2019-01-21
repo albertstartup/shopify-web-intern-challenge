@@ -3,9 +3,8 @@ import logo from './logo.svg';
 import './App.css';
 import request from 'request-promise-native';
 import 'semantic-ui-css/semantic.min.css'
-import { Input } from 'semantic-ui-react';
 import _ from 'underscore';
-import {Icon} from 'semantic-ui-react';
+import {Icon, Button, Input} from 'semantic-ui-react';
 
 window._ = _;
 
@@ -62,8 +61,8 @@ class App extends Component {
   }
 
   onClickStar(item) {
-    const newFaves = this.state.faves.concat(item);
-    this.setState({faves: newFaves})
+    const newFaves = _.union(this.state.faves, [item]);
+    this.setState({faves: newFaves});
     localStorage.setItem("faves", JSON.stringify(newFaves))
   }
 
@@ -79,19 +78,30 @@ class App extends Component {
 
   render() {
     return <div>
+      <div style={{display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '6rem',
+        marginTop: '1rem',
+        marginBottom: '1rem',
+        backgroundImage: 'linear-gradient(to right, rgb(0, 89, 151), rgb(0, 153, 88)'}}>
+        <h2 style={{color: 'white'}}>Toronto Waste Lookup</h2>
+      </div>
       <form
           onChange={(e) => {
             this.onChangeSearch(e);
           }}
-          style={{display: 'flex'}}>
-        <input style={{flex: '2'}}type='text'/>
-        <input onClick={(e) => {
+          style={{display: 'flex', paddingLeft: '1rem', paddingRight: '1rem'}}>
+        <Input style={{flex: '2'}} type='text'/>
+        <Button style={{marginLeft: '1rem', backgroundColor: '#009c55'}} onClick={(e) => {
           e.preventDefault();
           this.onSubmitSearch();
-        }} type='submit'/>
+        }} type='submit' icon>
+          <Icon style={{color: 'white'}} name='search'/>
+        </Button>
       </form>
       {_.map(this.state.itemsToDisplay, (item) => {
-        return <div key={item.id} style={{display: 'flex'}}>
+        return <div key={item.title} style={{display: 'flex', paddingLeft: '1rem', paddingRight: '1rem'}}>
           <div style={{flex: 1, padding: '1rem'}}>
             <div style={{display: 'flex', alignItems: 'baseline'}}>
               <Icon onClick={() => {
@@ -104,8 +114,11 @@ class App extends Component {
         </div>
       })}
 
+      {this.state.faves && this.state.faves.length !== 0 &&
+      <h3 style={{paddingLeft: '1rem', paddingRight: '1rem', backgroundColor: '#f5fefa', margin: '0rem', marginTop: '3rem', paddingTop: '1rem', color: '#009c55'}}>Favourites</h3>
+      }
       {_.map(this.state.faves, (item) => {
-        return <div key={item.id} style={{display: 'flex'}}>
+        return  <div key={item.title} style={{display: 'flex', backgroundColor: '#f5fefa', }}>
           <div style={{flex: 1, padding: '1rem'}}>
             <div style={{display: 'flex', alignItems: 'baseline'}}>
               <Icon onClick={() => {
