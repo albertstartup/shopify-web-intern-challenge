@@ -47,6 +47,12 @@ class App extends Component {
     this.setState({itemsToDisplay: itemsToDisplay});
   }
 
+  getDecodedString(encodedString) {
+    const textarea  = document.createElement("textarea");
+    textarea.innerHTML = encodedString;
+    return textarea.value;
+  }
+
   render() {
     return <div>
       <form
@@ -60,10 +66,16 @@ class App extends Component {
           this.onSubmitSearch();
         }} type='submit'/>
       </form>
-      <div style={{display: 'flex'}}>
-        <div>1</div>
-        <div>2</div>
-      </div>
+
+        {_.map(this.state.itemsToDisplay, (item) => {
+          return <div style={{display: 'flex'}}>
+            <div style={{flex: 1}}>{item.keywords}</div>
+            <div style={{flex: 1}} dangerouslySetInnerHTML={{__html: this.getDecodedString(item.body)}}>
+
+            </div>
+        </div>
+        })}
+
     </div>
   }
 }
