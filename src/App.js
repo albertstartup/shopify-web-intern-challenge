@@ -68,10 +68,9 @@ class App extends Component {
       </form>
 
         {_.map(this.state.itemsToDisplay, (item) => {
-          return <div style={{display: 'flex'}}>
-            <div style={{flex: 1}}>{item.keywords}</div>
-            <div style={{flex: 1}} dangerouslySetInnerHTML={{__html: this.getDecodedString(item.body)}}>
-
+          return <div key={item.title} style={{display: 'flex'}}>
+            <div style={{flex: 1, padding: '1rem'}}>{item.title}</div>
+            <div style={{flex: 1, padding: '1rem'}} dangerouslySetInnerHTML={{__html: this.getDecodedString(item.body)}}>
             </div>
         </div>
         })}
