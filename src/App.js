@@ -47,7 +47,8 @@ class App extends Component {
     const itemsToDisplay = _.filter(items, (item) => {
       const keywords = item.keywords;
       const title = item.title;
-      if (keywords.indexOf(this.state.searchInput) !== -1 || title.indexOf(this.state.searchInput) !== -1) {
+      if (keywords.toLowerCase().indexOf(this.state.searchInput.toLowerCase()) !== -1 ||
+          title.toLowerCase().indexOf(this.state.searchInput.toLowerCase()) !== -1) {
         return true;
       }
     });
